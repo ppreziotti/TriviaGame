@@ -1,0 +1,9 @@
+body {
+	background-image: url("../images/I-Stock-Basketball-Court.jpg");
+	background-size: cover;
+}
+
+#game {
+	background-color: cyan;
+	text-align: center;
+}
