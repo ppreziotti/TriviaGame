@@ -4,7 +4,7 @@ var incorrectAnswers;
 var noAnswers;
 var userGuess;
 
-var questions = [
+var trivia = [
 	{
 		question: "What team has won the most national titles?",
 		choices: ["UCLA", "Duke", "Kentucky", "North Carolina"],
@@ -70,7 +70,30 @@ var questions = [
 // Functions
 
 function startGame() {
+
 	correctAnswers = 0;
 	incorrectAnswers = 0;
 	noAnswers = 0;
+	console.log(trivia[0]);
+
+	for (i = 0; i < trivia.length; i++) {
+
+		var currentQuestion = $("<h2>");
+		currentQuestion.html(trivia[i].question);
+		$("#game").html(currentQuestion);
+
+		for (j = 0; j < trivia[i].choices.length; j++) {
+
+			var answerChoice = $("<h3>");
+			answerChoice.html(trivia[i].choices[j]);
+			$("#game").append(answerChoice);
+
+		}
+
+	}
+
 }
+
+$("#start").on("click", function() {
+	startGame();
+});
