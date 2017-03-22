@@ -3,6 +3,7 @@ var correctAnswers;
 var incorrectAnswers;
 var noAnswers;
 var userGuess;
+var number = 30;
 
 var trivia = [
 	{
@@ -76,7 +77,9 @@ function startGame() {
 	noAnswers = 0;
 	console.log(trivia[0]);
 
-	for (i = 0; i < trivia.length; i++) {
+	timer();
+
+	for (var i = 0; i < trivia.length; i++) {
 
 		var currentQuestion = $("<h2>");
 		currentQuestion.html(trivia[i].question);
@@ -92,6 +95,18 @@ function startGame() {
 
 	}
 
+}
+
+function timer() {
+	intervalId = setInterval(decrement, 1000);
+}
+
+var clock = $("<div>");
+$(".container").prepend(clock);
+
+function decrement() {
+	number--;
+	clock.text("Time Left: " + number);
 }
 
 $("#start").on("click", function() {

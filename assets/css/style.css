@@ -7,3 +7,7 @@ body {
 	background-color: cyan;
 	text-align: center;
 }
+
+h3:hover {
+	background-color: yellow;
+}
