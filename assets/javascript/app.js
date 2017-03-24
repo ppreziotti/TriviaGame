@@ -6,7 +6,7 @@ var userGuess;
 var number;
 var intervalId;
 
-// Array that holds the trivia questions, answers/choices, and info to be shown after the question
+// Array that holds the trivia questions, choices, answer, and info to be shown after the question
 var trivia = [
 	{
 		question: "What team has won the most national titles?",
@@ -84,6 +84,7 @@ function startGame() {
 var clock = $("<div>");
 $(".container").prepend(clock);
 
+
 function showQuestion() {
 
 	timer();
@@ -92,21 +93,23 @@ function showQuestion() {
 	questionDisplay.html(trivia[currentQuestion].question);
 	$("#game").html(questionDisplay);
 
+	// Loops through the trivia array to display one question at a time
 	for (i = 0; i < trivia[currentQuestion].choices.length; i++) {
 
 		var answerChoice = $("<h3>");
 		answerChoice.addClass("answer-choice");
+		answerChoice.attr("data-answer", trivia[currentQuestion].choices[i]);
 		answerChoice.text(trivia[currentQuestion].choices[i]);
 		$("#game").append(answerChoice);
 
 		}
 
+	console.log(trivia[currentQuestion].answer);
 }
 
 function nextQuestion() {
 	currentQuestion++;
 	showQuestion();
-	timer();
 }
 
 function timer() {
@@ -118,9 +121,34 @@ function decrement() {
 	clock.text("Time Left: " + number);
 	number--;
 	if (number === 0) {
-		stop();
-		nextQuestion();
+		noAnswer();
 	}
+}
+
+function correctAnswer() {
+	correctAnswers++;
+	console.log(correctAnswers);
+	stop();
+	$("#game").html("You are correct! " + trivia[currentQuestion].info);
+	setTimeout(nextQuestion, 3000);
+}
+
+function incorrectAnswer() {
+	incorrectAnswers++;
+	console.log(incorrectAnswers);
+	stop();
+	$("#game").html("Sorry, the correct answer was " + trivia[currentQuestion].answer + ". " + 
+		trivia[currentQuestion].info);
+	setTimeout(nextQuestion, 3000);
+}
+
+function noAnswer() {
+	noAnswers++;
+	stop();
+	$("#game").html("You ran out of time. The correct answer was " + trivia[currentQuestion].answer + ". " + 
+		trivia[currentQuestion].info);
+	setTimeout(nextQuestion, 3000);
+	console.log(noAnswers);
 }
 
 function stop() {
@@ -132,3 +160,17 @@ $("#start").on("click", function() {
 	startGame();
 	showQuestion();
 });
+
+// Event handler for the user clicking on an answer choice
+$(document.body).on("click", ".answer-choice" , function() {
+	console.log($(this).attr("data-answer"));
+	userGuess = $(this).attr("data-answer");
+
+	if (userGuess === trivia[currentQuestion].answer) {
+		correctAnswer();
+	}
+
+	else if (userGuess !== trivia[currentQuestion].answer) {
+		incorrectAnswer();
+	}
+})
