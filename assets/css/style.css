@@ -4,10 +4,18 @@ body {
 }
 
 #game {
-	background-color: cyan;
+	color: #FF7600;
 	text-align: center;
 }
 
 h3:hover {
-	background-color: yellow;
+	background-color: cyan;
+}
+
+#clock {
+	color: yellow;
+}
+
+.btn {
+	background-color: cyan;
 }
