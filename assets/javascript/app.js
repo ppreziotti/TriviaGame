@@ -20,7 +20,7 @@ var trivia = [
 		info: "The legendary program has won 11 national titles."
 	},
 	{
-		question: "What is the lowest seed to win the championship?",
+		question: "What was the lowest seed to win the championship?",
 		choices: ["7", "9", "8", "10"],
 		answer: "8",
 		info: "Villanova won the national title as a No. 8 seed in 1985."
@@ -80,12 +80,10 @@ var trivia = [
 
 // Starts a new game, resets all game counters and runs the showQuestion function
 function startGame() {
-
 	correctAnswers = 0;
 	incorrectAnswers = 0;
 	noAnswers = 0;
 	currentQuestion = 0;
-
 	showQuestion();
 }
 
@@ -93,7 +91,6 @@ function startGame() {
 // Displays the current question from the trivia array
 // Loops through the current question's answer choices and displays them
 function showQuestion() {
-
 	timer();
 	$("#clock").html(clock);
 	var questionDisplay = $("<h2>");
@@ -101,7 +98,6 @@ function showQuestion() {
 	$("#game").html(questionDisplay);
 
 	for (i = 0; i < trivia[currentQuestion].choices.length; i++) {
-
 		var answerDisplay = $("<div>");
 		var answerChoice =$("<span>");
 		answerChoice.addClass("answer-choice");
@@ -109,11 +105,9 @@ function showQuestion() {
 		answerChoice.text(trivia[currentQuestion].choices[i]);
 		$(answerDisplay).append(answerChoice);
 		$("#game").append(answerDisplay);
-
-		}
+	}
 
 	console.log(trivia[currentQuestion].answer);
-
 }
 
 // Sets timer at 30 seconds and shows it on the page
@@ -123,21 +117,20 @@ function timer() {
 	clock.text("Time Left: " + number);
 }
 
-// Sets the proper decrement for timer and displays the timer on the page as it counts down
+// Sets the proper decrement for timer and changes the timer on the page as it counts down
 // If the timer reaches zero the noAnswer function is run after a second
 // (Allows user to see the timer hit zero)
 function decrement() {
-
 	number--;
 	clock.text("Time Left: " + number);
 	if (number === 0) {
 		buzzer.play();
 		setTimeout(noAnswer, 1000);
 	}
-
 }
 
-// Notifies the user that they picked the correct answer, next question is shown after 5 seconds
+// Notifies the user that they picked the correct answer, along with info about the answer
+// The next question is shown after 5 seconds
 function correctAnswer() {
 	correctAnswers++;
 	console.log("Correct answers: " + correctAnswers);
@@ -148,7 +141,8 @@ function correctAnswer() {
 	setTimeout(nextQuestion, 5000);
 }
 
-// Notifies the user that they picked the incorrect answer, next question is shown after 5 seconds
+// Notifies the user that they picked the incorrect answer, along with info about the answer
+// The next question is shown after 5 seconds
 function incorrectAnswer() {
 	incorrectAnswers++;
 	console.log("Incorrect answers: " + incorrectAnswers);
@@ -160,7 +154,8 @@ function incorrectAnswer() {
 	setTimeout(nextQuestion, 5000);
 }
 
-// Notifies the user that they ran out of time, next question is shown after 5 seconds
+// Notifies the user that they ran out of time, shows the correct answer along with info about it
+// Next question is shown after 5 seconds
 function noAnswer() {
 	noAnswers++;
 	stop();
@@ -228,8 +223,8 @@ $(document.body).on("click", ".answer-choice" , function() {
 	}
 });
 
-// Event handler for clicking the new game button, startGame function is run
-// without reloading the page
+// Event handler for clicking the "play again" button: 
+// startGame function is run without reloading the page
 $(document.body).on("click", "#new-game", function() {
 	event.preventDefault();
 	startGame();

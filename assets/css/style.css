@@ -13,7 +13,7 @@ body {
 }
 
 .answer-choice {
-	font-size: 32px;
+	font-size: 28px;
 	padding: 5px;
 }
 
@@ -31,5 +31,5 @@ body {
 	background-color: cyan;
 	font-weight: bold;
 	font-size: 22px;
-	margin-top: 10px;
+	margin-top: 15px;
 }
