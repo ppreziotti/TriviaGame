@@ -20,7 +20,7 @@ var trivia = [
 		info: "The legendary program has won 11 national titles."
 	},
 	{
-		question: "What was the lowest seed to win the championship?",
+		question: "What was the lowest seed to ever win the championship?",
 		choices: ["7", "9", "8", "10"],
 		answer: "8",
 		info: "Villanova won the national title as a No. 8 seed in 1985."
@@ -47,7 +47,7 @@ var trivia = [
 		question: "What is the single-game individual points record?",
 		choices: ["47", "53", "61", "70"],
 		answer: "61",
-		info: "Austin Carr (Notre Dame) scored 61 points vs. Ohio in 1970"
+		info: "Austin Carr (Notre Dame) scored 61 points vs. Ohio in 1970."
 	},
 	{
 		question: "How many times has a No. 15 seed beaten a No. 2 seed in the Round of 64?",
@@ -56,7 +56,7 @@ var trivia = [
 		info: "This occured most recently in 2016 when Middle Tennessee defeated Michigan State."
 	},
 	{
-		question: "What is the lowest seed to reach the Final Four?",
+		question: "What was the lowest seed to ever reach the Final Four?",
 		choices: ["8", "11", "12", "10"],
 		answer: "11",
 		info: "Louisiana State (1986), George Mason (2006), and VCU (2011) have all accomplished this task."
