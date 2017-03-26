@@ -1,4 +1,5 @@
-// Global variables
+// GLOBAL VARIABLES
+//==========================================================================================
 var correctAnswers;
 var incorrectAnswers;
 var noAnswers;
@@ -6,20 +7,23 @@ var userGuess;
 var number;
 var intervalId;
 var clock = $("<h1>");
+var buzzer = new Audio("assets/sounds/buzzer.mp3");
+var cheer = new Audio("assets/sounds/cheering.mp3");
+var boo = new Audio("assets/sounds/boo.mp3");
 
-// Array that holds the trivia questions, choices, answers, and info to be shown after the question
+// Array that holds the trivia questions, answers/choices, and info about the answer
 var trivia = [
 	{
-		question: "What team has won the most national titles?",
+		question: "What team has won the most championships?",
 		choices: ["UCLA", "Duke", "Kentucky", "North Carolina"],
 		answer: "UCLA",
 		info: "The legendary program has won 11 national titles."
 	},
 	{
-		question: "What is the lowest seeded team to win the championship?",
+		question: "What is the lowest seed to win the championship?",
 		choices: ["7", "9", "8", "10"],
 		answer: "8",
-		info: "Villanova won the national title as a number 8 seed in 1985."
+		info: "Villanova won the national title as a No. 8 seed in 1985."
 	},
 	{
 		question: "What team holds the record for the most Final Four appearances?",
@@ -28,7 +32,7 @@ var trivia = [
 		info: "UNC has appeared in the Final Four 19 times."
 	},
 	{
-		question: "What school won the first ever national title in 1939?",
+		question: "What team won the first tournament in 1939?",
 		choices: ["Indiana", "Oregon", "Kansas", "Ohio State"],
 		answer: "Oregon",
 		info: "The tournament consisted of only eight teams and the championship game was held at Northwestern University.",
@@ -46,10 +50,10 @@ var trivia = [
 		info: "Austin Carr (Notre Dame) scored 61 points vs. Ohio in 1970"
 	},
 	{
-		question: "How many times has a 15 seed beaten a 2 seed in the Round of 64?",
+		question: "How many times has a No. 15 seed beaten a No. 2 seed in the Round of 64?",
 		choices: ["8", "4", "11", "7"],
 		answer: "8",
-		info: "The most recent time this occured was in 2016 when Middle Tennessee defeated Michigan State."
+		info: "This occured most recently in 2016 when Middle Tennessee defeated Michigan State."
 	},
 	{
 		question: "What is the lowest seed to reach the Final Four?",
@@ -58,10 +62,10 @@ var trivia = [
 		info: "Louisiana State (1986), George Mason (2006), and VCU (2011) have all accomplished this task."
 	},
 	{
-		question: "What player has won the most NCAA Tournament MVP Awards?",
+		question: "What player has won the most tournament Most Outstanding Player Awards?",
 		choices: ["Bill Walton, UCLA", "Jerry Lucas, Ohio State", "Alex Groza, Kentucky", "Lew Alcindor, UCLA"],
 		answer: "Lew Alcindor, UCLA",
-		info: "You might recognize the name he adopted during his NBA career, Kareem Abdul-Jabbar."
+		info: "You might recognize him by the name he adopted during his NBA career, Kareem Abdul-Jabbar."
 	},
 	{
 		question: "What city has hosted the most Final Fours?",
@@ -71,7 +75,8 @@ var trivia = [
 	}
 ];
 
-// Functions
+// FUNCTIONS
+//=============================================================================================
 
 // Starts a new game, resets all game counters and runs the showQuestion function
 function startGame() {
@@ -84,7 +89,7 @@ function startGame() {
 	showQuestion();
 }
 
-// Starts the time and displays it on the page
+// Starts the timer and displays it on the page
 // Displays the current question from the trivia array
 // Loops through the current question's answer choices and displays them
 function showQuestion() {
@@ -97,11 +102,13 @@ function showQuestion() {
 
 	for (i = 0; i < trivia[currentQuestion].choices.length; i++) {
 
-		var answerChoice = $("<h3>");
+		var answerDisplay = $("<div>");
+		var answerChoice =$("<span>");
 		answerChoice.addClass("answer-choice");
 		answerChoice.attr("data-answer", trivia[currentQuestion].choices[i]);
 		answerChoice.text(trivia[currentQuestion].choices[i]);
-		$("#game").append(answerChoice);
+		$(answerDisplay).append(answerChoice);
+		$("#game").append(answerDisplay);
 
 		}
 
@@ -109,51 +116,25 @@ function showQuestion() {
 
 }
 
-// Iterates currentQuestion and then runs the showQuestion function for the next question
-// If all questions have been displayed already the gameOver function is run
-function nextQuestion() {
-	currentQuestion++;
-	if (currentQuestion < trivia.length) {
-		showQuestion();
-	}
-	else {
-		gameOver();
-	}
-}
-
-// The game ends and the user's stats, along with a start new game button, are displayed
-function gameOver() {
-	var correctStats = $("<h2>").html("Correct Answers: " + correctAnswers);
-	var incorrectStats = $("<h2>").html("Incorrect Answers: " + incorrectAnswers);
-	var unansweredStats = $("<h2>").html("Unanswered Questions: " + noAnswers);
-	$("#game").empty();
-	$("#game").append(correctStats);
-	$("#game").append(incorrectStats);
-	$("#game").append(unansweredStats);
-	var newGame = $("<button>").text("Start New Game");
-	newGame.addClass("btn btn-large");
-	$("#game").append(newGame);
-}
-	
-// Event handler for clicking the start new game button, startGame function is run
-$(document.body).on("click", ".btn", function() {
-	startGame();
-});
-
-// 30 second timer, counting down from 30
+// Sets timer at 30 seconds and shows it on the page
 function timer() {
 	number = 30;
 	intervalId = setInterval(decrement, 1000);
+	clock.text("Time Left: " + number);
 }
 
-// Sets the proper decrement for timer and displays the timer on the page
-// If the timer reaches zero the noAnswer function is run
+// Sets the proper decrement for timer and displays the timer on the page as it counts down
+// If the timer reaches zero the noAnswer function is run after a second
+// (Allows user to see the timer hit zero)
 function decrement() {
-	clock.text("Time Left: " + number);
+
 	number--;
+	clock.text("Time Left: " + number);
 	if (number === 0) {
-		noAnswer();
+		buzzer.play();
+		setTimeout(noAnswer, 1000);
 	}
+
 }
 
 // Notifies the user that they picked the correct answer, next question is shown after 5 seconds
@@ -161,6 +142,7 @@ function correctAnswer() {
 	correctAnswers++;
 	console.log("Correct answers: " + correctAnswers);
 	stop();
+	cheer.play();
 	var answerStatement = $("<h2>").html("You are correct! " + trivia[currentQuestion].info);
 	$("#game").html(answerStatement);
 	setTimeout(nextQuestion, 5000);
@@ -171,6 +153,7 @@ function incorrectAnswer() {
 	incorrectAnswers++;
 	console.log("Incorrect answers: " + incorrectAnswers);
 	stop();
+	boo.play();
 	var answerStatement = $("<h2>").html("Sorry, the correct answer was " + 
 		trivia[currentQuestion].answer + ". " + trivia[currentQuestion].info);
 	$("#game").html(answerStatement);
@@ -194,6 +177,37 @@ function stop() {
 	$("#clock").empty();
 }
 
+// Iterates currentQuestion and then runs the showQuestion function for the next question
+// If all questions have been displayed already the gameOver function is run
+function nextQuestion() {
+	currentQuestion++;
+	if (currentQuestion < trivia.length) {
+		showQuestion();
+	}
+	else {
+		gameOver();
+	}
+}
+
+// The game ends and the user's stats, along with a "play again" button, are displayed
+function gameOver() {
+	var correctStats = $("<h2>").html("Correct Answers: " + correctAnswers);
+	var incorrectStats = $("<h2>").html("Incorrect Answers: " + incorrectAnswers);
+	var unansweredStats = $("<h2>").html("Unanswered Questions: " + noAnswers);
+	$("#game").empty();
+	$("#game").append("<h1>Game Over</h1>");
+	$("#game").append(correctStats);
+	$("#game").append(incorrectStats);
+	$("#game").append(unansweredStats);
+	var newGame = $("<button>").text("Play Again");
+	newGame.addClass("btn btn-large");
+	newGame.attr("id", "new-game");
+	$("#game").append(newGame);
+}
+
+// MAIN PROCESS
+//=============================================================================================
+
 // Event handler for clicking start button, startGame function is run
 $("#start").on("click", function() {
 	startGame();
@@ -212,4 +226,11 @@ $(document.body).on("click", ".answer-choice" , function() {
 	else if (userGuess !== trivia[currentQuestion].answer) {
 		incorrectAnswer();
 	}
+});
+
+// Event handler for clicking the new game button, startGame function is run
+// without reloading the page
+$(document.body).on("click", "#new-game", function() {
+	event.preventDefault();
+	startGame();
 });
