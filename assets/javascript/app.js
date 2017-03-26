@@ -29,7 +29,7 @@ var trivia = [
 		question: "What team holds the record for the most Final Four appearances?",
 		choices: ["UCLA", "Duke", "Kentucky", "North Carolina"],
 		answer: "North Carolina",
-		info: "UNC has appeared in the Final Four 19 times."
+		info: "UNC has made it to the Final Four 20 times."
 	},
 	{
 		question: "What team won the first tournament in 1939?",
